@@ -109,7 +109,7 @@ const Invoicing: FC<InvoicingProps> = () => {
         },
       )}
       <View
-        className='fixed bottom-0 left-0 right-0 pt-2 px-8 bg-white flex justify-between items-center'
+        className='fixed bottom-0 left-0 right-0 py-2 px-8 bg-white flex justify-between items-center'
         style={{ paddingBottom: `${safeArea?.top ?? 0}rpx` }}>
         {/* 全部选择 */}
         <View

@@ -14,7 +14,7 @@ import ADV from '@/subpackages/report/images/advanced';
 // const ADV = require('@/subpackages/report/images/advanced.png');
 interface ListItemProps {
   info: REPORT_ITEM_ENUM;
-  onClick?: (params: { [key: string]: string | number }) => void;
+  onClick?: (params: any) => void;
 }
 
 export default function Index(props: ListItemProps) {
@@ -32,12 +32,8 @@ export default function Index(props: ListItemProps) {
           </View>
           <AtButton
             circle
-            className='h-8 leading-none bg-white border-0 flex items-center'
-            onClick={() =>
-              onClick({
-                info: JSON.stringify(info),
-              })
-            }>
+            className='!h-8 leading-none bg-white border-0 flex items-center'
+            onClick={() => onClick(info)}>
             <Text
               className='text-base font-medium'
               style={{ color: textColor }}>

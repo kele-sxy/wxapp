@@ -3,6 +3,7 @@ import { AtIcon, AtNavBar } from 'taro-ui';
 import Taro, { usePageScroll } from '@tarojs/taro';
 import './index.less';
 import { View, Text } from '@tarojs/components';
+import { getIsWebView } from '@/utils';
 
 interface CustomNavBarProps {
   title: ReactNode | string;
@@ -25,6 +26,9 @@ export default function Index(props: CustomNavBarProps) {
   } = props;
 
   const defaultColor = '#fff';
+
+  const isWebView = getIsWebView();
+  if (isWebView) return <></>;
 
   const [bgColor, setBgColor] = useState(
     gradient ? 'rgba(255, 255, 255, 0)' : '#fff',
@@ -61,8 +65,10 @@ export default function Index(props: CustomNavBarProps) {
         paddingTop: `${info.top}px`,
         paddingBottom: '10px',
         backgroundColor: bgColor,
-        borderBottom: '1rpx solid transparent',
+        borderBottom: '1px solid transparent',
         borderBottomColor: `rgba(213, 213, 213, ${opc})`,
+        left: '0px',
+        // display: process.env.TARO_APP_IS_H5 ? 'none' : 'block',
       }}
       className='fixed top-0 w-full z-50 nav-box'>
       <AtNavBar
@@ -78,17 +84,14 @@ export default function Index(props: CustomNavBarProps) {
             // 返回 tabbar page
             Taro.reLaunch({ url: backUrl });
             return;
-          }
-          if (backUrl) {
+          } else if (backUrl) {
             Taro.navigateTo({ url: backUrl });
             return;
           }
+          // 返回上一级
           const pages = Taro.getCurrentPages();
-          if (pages.length > 1) {
-            Taro.navigateBack({ delta: 1 });
-            return;
-          }
-          Taro.reLaunch({ url: '/pages/home/index' });
+          if (pages.length < 2 && window.history) window.history.go(-1);
+          else Taro.navigateBack({ delta: 1 });
         }}>
         <View
           style={{ color: textColor }}

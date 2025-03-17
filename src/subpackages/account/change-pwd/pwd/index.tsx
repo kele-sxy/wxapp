@@ -17,7 +17,7 @@ const Pwd: FC<IProps> = ({ value, onChange, placeholder }: any) => {
         cursor={-1}
         name='password'
         className='h-[60rpx] w-full border-x-0 border-t-0 border-b-[1rpx] border-solid border-[#D5D5D5] mb-[40rpx] !mx-0 bg-transparent p-0'
-        placeholderClass='text-[#BFBFBF] text-[24rpx] leading-[33rpx]'
+        placeholderClass='text-[#BFBFBF] text-[24px] leading-[33rpx]'
         placeholder={placeholder}
         value={value}
         onChange={onChange}
@@ -36,7 +36,7 @@ const Pwd: FC<IProps> = ({ value, onChange, placeholder }: any) => {
           )}
           {!canSee && (
             <AtIcon
-              className='h-[48rpx]'
+              className='h-[48rpx] leading-[48rpx]'
               prefixClass='icon'
               value='close-eye'
               size='20'

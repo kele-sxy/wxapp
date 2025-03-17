@@ -7,6 +7,7 @@ import Taro from '@tarojs/taro';
 import PassWordOld from './pwd';
 import PassWordNew from './pwd';
 import PassWordConfirm from './pwd';
+import CustomNavBar from '@/components/CustomNavBar';
 
 interface IProps {}
 
@@ -76,7 +77,8 @@ const ChangePwd: FC<IProps> = () => {
   };
 
   return (
-    <View className='bg-base-bg px-[32px] h-[100vh] pt-[16px]'>
+    <View className='bg-base-bg px-[32px] h-[100vh]'>
+      <CustomNavBar color='#0E1836' title='账号设置' gradient={false} />
       <View className='bg-[#fff] px-[24px] pt-[36px] pb-[48px] rounded-[32px]'>
         {!hasPwd && (
           <View className='text-[#858585] text-[28px] mb-[8px]'>

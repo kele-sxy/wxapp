@@ -14,11 +14,12 @@ import './index.less';
 import VoucherCard from '../components/VoucherCard';
 import { getVoucherList, getVoucherReportList } from '@/services/voucher';
 import { REPORT_ENUM, REPORT_TYPE_ENUM, VOUCHER_STATUS_ENUM } from '@/constant';
-import { paramsToQueryString } from '@/utils';
 import EmptyStatus from '@/components/Empty';
+import CustomNavBar from '@/components/CustomNavBar';
 
 const Coupon: FC<any> = () => {
   // const userInfo = Taro.getStorageSync('userInfo');
+
   const [current, setCurrent] = useState(0);
 
   const [loading, setLoading] = useState(false);
@@ -34,14 +35,15 @@ const Coupon: FC<any> = () => {
   const goToReportSearch = (report: any, voucher?: any) => {
     const { voucherRecordUserId, amount: voucherAmount } =
       voucher ?? currentVoucher;
-    const info = JSON.stringify({
+    const info = {
       ...report,
       voucherRecordUserId,
       voucherAmount: Number(voucherAmount),
-    });
-    const requestStr = paramsToQueryString({ info });
+    };
+    Taro.setStorageSync('searchReportVersion', info);
+    // const requestStr = paramsToQueryString({ info });
     Taro.navigateTo({
-      url: `/subpackages/report/pages/report-search/index?${requestStr}`,
+      url: `/subpackages/report/pages/report-search/index`,
     });
   };
 
@@ -82,7 +84,8 @@ const Coupon: FC<any> = () => {
   });
 
   return (
-    <View className='bg-base-bg min-h-[100vh] overflow-hidden'>
+    <View className='bg-base-bg min-h-full overflow-hidden lean-padding'>
+      <CustomNavBar color='#0E1836' title='优惠券' gradient={false} />
       <AtTabs
         tabList={[{ title: '待使用' }, { title: '已使用' }]}
         current={current}
@@ -90,12 +93,12 @@ const Coupon: FC<any> = () => {
           getCouponList(v);
           setCurrent(v);
         }}>
-        <AtTabsPane current={current} index={0}>
+        <AtTabsPane current={current} index={0} className='pt-5'>
           {couponList?.map((item) => (
             <VoucherCard openFloat={() => openFloat(item)} voucher={item} />
           ))}
         </AtTabsPane>
-        <AtTabsPane current={current} index={1}>
+        <AtTabsPane current={current} index={1} className='pt-5'>
           {couponList?.map((item) => (
             <VoucherCard
               used

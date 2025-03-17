@@ -1,5 +1,8 @@
 import Taro from '@tarojs/taro';
-import { clearToken, getToken } from '../index';
+import wx from 'weixin-js-sdk';
+import { clearToken, getIsWebView, getToken } from '../index';
+
+const whiteRequest = ['/c-chat/unread'];
 
 export interface Res {
   code: number;
@@ -16,7 +19,20 @@ const handleRequestError = (error: any) => {
   const pages = Taro.getCurrentPages();
   const currentPage = pages?.pop();
 
-  if (error?.code === 401 && currentPage?.route !== 'pages/login/index') {
+  const needLogin =
+    (error?.code === 'E0000010009' && error?.message === '用户未登录') ||
+    error?.code === 401;
+
+  if (needLogin && currentPage?.route !== 'pages/login/index') {
+    // 小程序嵌套
+    const isWebView = getIsWebView();
+    if (isWebView) {
+      wx.miniProgram.postMessage({ data: { type: 'TOKEN_EXPIRED' } });
+      wx.miniProgram.reLaunch({ url: '/pages/home/index' });
+      clearToken();
+      return;
+    }
+
     if (isNavigatingToLogin) return; //isNavigatingToLogin为true表明已经在跳转，不执行后续跳转逻辑
     isNavigatingToLogin = true; // 标记已经在跳转
     clearToken();
@@ -96,7 +112,7 @@ class AppRequest {
           // 根据 statusCode 拦截接口
           if (res.statusCode === 200 && res?.data?.code === 200) {
             resolve(res.data);
-          } else {
+          } else if (!whiteRequest.includes(options.url)) {
             handleRequestError(res?.data || res);
             reject(res?.data || res);
           }

@@ -1,8 +1,9 @@
 import { View } from '@tarojs/components';
 import { FC } from 'react';
 import ListUnit from '../components/ListUnit';
+import CustomNavBar from '@/components/CustomNavBar';
 
-interface AccountProps { }
+interface AccountProps {}
 
 const Account: FC<AccountProps> = () => {
   const list = [
@@ -13,6 +14,7 @@ const Account: FC<AccountProps> = () => {
 
   return (
     <View className='bg-base-bg px-[32px] h-[100vh] pt-[16px]'>
+      <CustomNavBar color='#0E1836' title='我的协议' gradient={false} />
       <ListUnit list={list} />
     </View>
   );

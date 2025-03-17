@@ -16,7 +16,6 @@ export default defineAppConfig({
       root: 'subpackages/account',
       pages: [
         'index',
-        'add-account/index',
         'change-phone/index',
         'change-pwd/index',
         'destroy-account/index',
@@ -67,6 +66,22 @@ export default defineAppConfig({
       pages: ['index'],
     },
     {
+      root: 'subpackages/staff-service',
+      pages: ['index'],
+    },
+    {
+      root: 'subpackages/answer-detail',
+      pages: ['index'],
+    },
+    {
+      root: 'subpackages/complaint-center',
+      pages: ['index'],
+    },
+    {
+      root: 'subpackages/complaint-record',
+      pages: ['index'],
+    },
+    {
       root: 'subpackages/my-orders',
       pages: ['index'],
     },
@@ -105,4 +120,9 @@ export default defineAppConfig({
     backgroundColor: '#F3F4F8',
   },
   lazyCodeLoading: 'requiredComponents',
+  // animation: false,
+  animation: {
+    duration: 100,
+    delay: 50,
+  },
 });

@@ -1,20 +1,22 @@
-import { useRef, useState } from 'react';
 import { Text } from '@tarojs/components';
 import ListUnit from '../ListUnit';
 import voucher from '@/assets/svg/voucher.svg';
 import orders from '@/assets/svg/orders.svg';
-import service from '@/assets/service';
-import { getUnreadMessage } from '../../service';
+import service from '@/assets/svg/service.svg';
+import { getUnreadMessage } from '@/services/service';
 import { useDidHide, useDidShow, useTabItemTap } from '@tarojs/taro';
+import { useRef, useState } from 'react';
 
 function MyService(props: any) {
   const { info } = props;
   const [hasUnread, setHasUnread] = useState(false);
 
   const timerRef = useRef<any>(null);
+  const controllerRef = useRef<AbortController>();
 
   const getStatus = () => {
-    return getUnreadMessage().then((res) => {
+    const abort = (controllerRef.current = new AbortController());
+    return getUnreadMessage(abort.signal).then((res) => {
       setHasUnread(res?.data?.unread);
     });
   };
@@ -26,17 +28,18 @@ function MyService(props: any) {
   };
 
   useDidShow(() => {
-    clearTimeout(timerRef.current);
     getStatus().finally(() => {
       loopGet();
     });
   });
 
   useDidHide(() => {
+    controllerRef.current?.abort();
     clearTimeout(timerRef.current);
   });
 
   useTabItemTap(() => {
+    controllerRef.current?.abort();
     clearTimeout(timerRef.current);
   });
 
@@ -60,11 +63,10 @@ function MyService(props: any) {
       icon: service,
       title: <>我的客服</>,
       target: '/subpackages/answer-center/index',
-      redDot: hasUnread,
     },
   ];
 
-  return <ListUnit list={list} />;
+  return <ListUnit list={list} redDot={hasUnread} />;
 }
 
 export default MyService;

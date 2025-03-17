@@ -37,18 +37,3 @@ export const checkTokenStatus = () => {
     url: '/auth/isLogin',
   });
 };
-
-// 微信登录
-export const wxLogin = (data: { code: string }) => {
-  return appRequest.post({
-    url: '/auth/loginWithWxCode',
-    data,
-  });
-};
-
-// 查自己时获取用户三要素信息
-export const getUserInfo = () => {
-  return appRequest.post({
-    url: '/user/identity',
-  });
-};

@@ -38,7 +38,7 @@ const MainTitle: FC<IProps> = () => {
                 }}>
                 <Image
                   className='size-full absolute top-0 left-0 -z-10'
-                  src={`${process.env.TARO_APP_API_URL}${MINIO_PREFIX}${item?.background?.url}`}
+                  src={`${MINIO_PREFIX}${item?.background?.url}`}
                 />
                 {/* <View
                   className='px-4 py-2 text-white bg-gradient-to-r from-[#8ADAFF] to-[#03A7FF] rounded-[34rpx] absolute left-6 bottom-5 flex items-center'

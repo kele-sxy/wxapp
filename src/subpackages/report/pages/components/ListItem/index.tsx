@@ -10,7 +10,7 @@ import {
   REPORT_TITLE_ENUM,
 } from '@/constant';
 
-function ListItem({ item, reload, handleShare }) {
+function ListItem({ item, reload }) {
   const {
     type,
     reportId,
@@ -106,7 +106,7 @@ function ListItem({ item, reload, handleShare }) {
               onClick={() => {
                 curReportDelete(reportId);
               }}
-              className='border-[#4F7FFF] text-[#4F7FFF] text-[28px] w-[192px] h-[72px] leading-[72px]'
+              className='border-[#4F7FFF] text-[#4F7FFF] text-[28px] w-[192px] !h-[72px] leading-[72px]'
               circle={true}>
               删除
             </AtButton>
@@ -116,7 +116,7 @@ function ListItem({ item, reload, handleShare }) {
               onClick={() => {
                 curReportResubmit(reportId);
               }}
-              className='ml-[24px] text-[28px] w-[192px]  h-[72px] leading-[72px]'
+              className='ml-[24px] text-[28px] w-[192px] !h-[72px] leading-[72px]'
               circle={true}
               type='primary'>
               重新获取
@@ -125,25 +125,14 @@ function ListItem({ item, reload, handleShare }) {
         </View>
       ) : (
         <View className='flex justify-end'>
-          <View className='flex items-center'>
-            {status === REPORT_STATUS.SUCCESS && (
-              <AtButton
-                onClick={() => {
-                  handleShare(reportId, reportType);
-                }}
-                className='text-sm w-24 h-9 leading-9 mr-3'
-                circle={true}
-                type='primary'>
-                分享
-              </AtButton>
-            )}
+          <View>
             <AtButton
               onClick={() => {
                 Taro.navigateTo({
                   url: `/subpackages/report-detail/pages/common/index?type=${reportType}&reportId=${reportId}`,
                 });
               }}
-              className='text-sm w-24 h-9 leading-9'
+              className='text-[28px] w-[192px] !h-8 flex-center'
               circle={true}
               disabled={status !== REPORT_STATUS.SUCCESS}
               loading={status === REPORT_STATUS.QUERYING}

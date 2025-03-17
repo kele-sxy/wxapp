@@ -60,9 +60,9 @@ const PigItem: FC<IProps> = (props) => {
           size={'small'}
           className={`${mainKey}-background`}
           circle={true}>
-          <View style={{ color: '#fff', fontSize: 12 }}>
+          <View style={{ color: '#fff', fontSize: 12 }} className='flex-center'>
             进入
-            <View className='arrow'></View>
+            <View className='white-arrow'></View>
           </View>
         </AtButton>
       </View>

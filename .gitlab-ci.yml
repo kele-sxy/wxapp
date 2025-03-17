@@ -1,0 +1,55 @@
+image: $REGISTRY_URL/k8s/docker:19.03.12-dind-tools-nodejs-19
+# image: $REGISTRY_URL/k8s/node:18.17-alpine
+
+
+variables:
+  DOCKER_HOST: tcp://localhost:2376
+  DOCKER_TLS_CERTDIR: '/certs'
+  DOCKER_CERT_PATH: '/certs/client'
+  DOCKER_TLS_VERIFY: 1
+  DOCKER_DAEMON_OPTIONS: --insecure-registry=$REGISTRY_URL
+  PLATFORM: linux/amd64,linux/arm64
+
+services:
+  - name: $REGISTRY_URL/k8s/docker:19.03.12-dind-tools-nodejs-19
+    entrypoint: ['sh', '-c', 'dockerd-entrypoint.sh $DOCKER_DAEMON_OPTIONS']
+
+before_script:
+  - until docker info; do sleep 0.5; done
+  - docker login $REGISTRY_URL --username $HARBOR_USERNAME --password $HARBOR_PASSWORD
+  - export RELEASE_FLAG=$(echo $CI_BUILD_REF_NAME | grep -c release)
+  - export BranchLabel=$([[ $RELEASE_FLAG = 1 ]] && echo ${CI_BUILD_REF_NAME#release*/} || echo $CI_BUILD_REF_NAME)
+  - export BASE_VERSION=$(echo $BranchLabel | awk '{sub("\/","-");print$1}')-${CI_COMMIT_SHA:0:7}
+  - export RELEASE_VERSION=$BranchLabel-stable-${CI_COMMIT_SHA:0:7}
+  - export IMAGE_VERSION=$([[ ${RELEASE_FLAG} = 1 ]] && echo $RELEASE_VERSION || echo $BASE_VERSION)
+  - export HARBOR_GROUP_NAME=${CI_PROJECT_NAMESPACE,,}
+  - export APP_NAME=${CI_PROJECT_NAME,,}
+  - git fetch 
+    
+
+stages:
+  - build
+
+build-release:
+  stage: build
+  script:
+     # 输出当前工作目录
+    - pwd
+    - pnpm config set registry $NPM_URL
+    - pnpm install
+    - pnpm install @tarojs/binding-linux-x64-musl
+    - npm run build:h5
+    # pub 推上去会自动更新
+    # - IMAGE=$REGISTRY_URL/pub/$APP_NAME:$IMAGE_VERSION
+    - IMAGE=$REGISTRY_URL/$HARBOR_GROUP_NAME-release/$APP_NAME:$IMAGE_VERSION
+    - docker build -f Dockerfile -t $IMAGE . --no-cache
+    - docker push $IMAGE
+
+  only:
+    - /^release\/*$/
+    - /^h5$/
+    - /^dev-.*$/
+    - /^release\/\d+\.\d+\.\d+$/
+    - /^release\/\d+\.\d+\.\d+\.\d+$/
+  tags:
+    - k8s-frontend

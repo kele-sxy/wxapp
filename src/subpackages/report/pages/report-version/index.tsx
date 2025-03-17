@@ -6,7 +6,7 @@ import TopViewBg from '@/components/TopViewBg';
 import ListItem from '@/components/ListItem';
 import { REPORT_ENUM, type REPORT_ITEM_ENUM } from '@/constant';
 import Taro from '@tarojs/taro';
-import { paramsToQueryString } from '@/utils';
+import { formatBigNumber } from '@/utils';
 import './index.less';
 import { getReportCount, getReportInfoList } from '@/services/report';
 import imageBg from '../../images/report-bg';
@@ -73,12 +73,8 @@ export default function Index() {
             color='#4f7fff'
             className='ml-4 mr-2'
           />
-          <View className='noticebar-wrapper'>
-            <View className='noticebar-content'>
-              已有<Text className='count-num'>{viewCount}</Text>
-              人查询了{REPORT_ENUM[type]}报告
-            </View>
-          </View>
+          已有<Text className='count-num'>{formatBigNumber(viewCount)}</Text>
+          人查询了{REPORT_ENUM[type]}报告
         </View>
       </TopViewBg>
       <View className='mt-3 mx-2'>
@@ -88,11 +84,12 @@ export default function Index() {
               info={item}
               onClick={(params) => {
                 //将对象 params 处理成 & 拼接的字符串
-                const requestStr = paramsToQueryString(params);
+                // const requestStr = paramsToQueryString(params);
+                Taro.setStorageSync('searchReportVersion', params);
                 checkLoginStatus().then((res) => {
                   if (res)
                     Taro.navigateTo({
-                      url: `/subpackages/report/pages/report-search/index?${requestStr}`,
+                      url: `/subpackages/report/pages/report-search/index`,
                     });
                   else Taro.navigateTo({ url: '/pages/login/index' });
                 });

@@ -3,6 +3,7 @@ import Taro from '@tarojs/taro';
 import { useState } from 'react';
 import { AtButton, AtForm, AtInput } from 'taro-ui';
 import { livingAuth } from './service';
+import CustomNavBar from '@/components/CustomNavBar';
 
 const Face = () => {
   const [idCard, setIdCard] = useState<any>('');
@@ -76,9 +77,10 @@ const Face = () => {
   const text = `请您提供完整的身份证号码与姓名完成实名认证`;
   return (
     <View className='bg-base-bg px-[32px] h-[100vh] pt-6'>
+      <CustomNavBar color='#0E1836' title='实名认证' gradient={false} />
       <View className='bg-[#fff] px-[24px] pt-[36px] pb-[48px] rounded-[32px]'>
-        <View className='text-[#B3B3B3] text-[24px]'>{text}</View>
-        <AtForm className='mt-[24px]' onSubmit={onSubmit}>
+        <View className='text-[#B3B3B3] text-xs'>{text}</View>
+        <AtForm className='mt-3' onSubmit={onSubmit}>
           <AtInput
             cursor={-1}
             name='idCard'
@@ -98,12 +100,12 @@ const Face = () => {
             onChange={(value) => {
               setName(value);
             }}
+            className='mb-6'
           />
           <AtButton
             loading={loading}
             type='primary'
             circle={true}
-            className='mt-[72px]'
             formType='submit'>
             实名认证
           </AtButton>

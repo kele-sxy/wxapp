@@ -1,0 +1,141 @@
+// 引入 ChatUI 样式
+@import '@chatui/core/es/styles/index.less';
+
+:root {
+  --gutter: 16px;
+  --brand-1: #4f7fff;
+  --brand-2: #4f7fff;
+  --brand-3: #4f7fff;
+  --marked-color: #fff;
+  --btn-primary-color: #fff;
+}
+
+.ChatApp {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #f3f4f8;
+  .Navbar {
+    background-color: #ffffff;
+    .Navbar-title {
+      color: #193059;
+    }
+  }
+  .Bubble {
+    max-width: 520px;
+    &.text {
+      padding: 20px;
+    }
+  }
+  & .MessageContainer,
+  .Message .Bubble,
+  .QuickReplies,
+  .ChatFooter {
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .Avatar img {
+    width: 48px;
+    height: 48px;
+  }
+  .Message.left {
+    .Message-main .Avatar {
+      margin-right: 10px;
+    }
+    .Bubble {
+      color: #0e1836;
+    }
+    .Message-author {
+      font-size: 26px;
+      color: #193059;
+      margin-bottom: 10px;
+    }
+  }
+  .Message.right {
+    .Message-main .Avatar {
+      margin-left: 10px;
+    }
+    .Bubble {
+      color: #fff;
+    }
+  }
+  .Message + .Message {
+    margin-top: 28px;
+  }
+  .QuickReply {
+    font-size: 24px;
+    padding: 16px 35px;
+    color: #193059;
+    border-color: #4f7fff;
+    border-radius: 26px;
+  }
+  .QuickReplies,
+  .ChatFooter {
+    background-color: #f3f4f8;
+  }
+  .ChatFooter {
+    padding-bottom: 40px;
+    .Composer {
+      align-items: center;
+      .Composer-input {
+        font-size: 28px;
+        line-height: 1.6rem;
+        max-height: none;
+      }
+      .Composer-actions .IconBtn {
+        font-size: 48px;
+      }
+    }
+  }
+  .Toolbar-item {
+    .Btn {
+      border-radius: 0;
+    }
+    .Toolbar-btnText {
+      font-size: 28px;
+    }
+    .Toolbar-btnIcon {
+      overflow: hidden;
+      .Icon {
+        font-size: 48px;
+        vertical-align: center;
+      }
+    }
+  }
+
+  .MessageList {
+    // padding-top: 48px;
+    &,
+    .Time {
+      font-size: 24px;
+    }
+  }
+
+  .at-list {
+    .at-list__item {
+      font-size: 24px;
+      color: #193059;
+      padding: 0.6rem 0;
+      .item-extra__icon-arrow {
+        font-size: 28px;
+        color: #193059;
+      }
+      &::after {
+        left: 0;
+        border-color: #d9d9d9;
+      }
+      &:last-child::after {
+        border: 0;
+      }
+    }
+    &::after {
+      border-color: #d9d9d9;
+    }
+  }
+  .MessageContainer > .PullToRefresh > .PullToRefresh-inner {
+    padding-bottom: 3rem;
+    padding-top: 16px;
+  }
+}
+.S--focusing .MessageList {
+  margin-top: 0;
+}

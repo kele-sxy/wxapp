@@ -23,6 +23,9 @@ export default defineConfig(async (merge) => {
       'process.env.TARO_APP_API_URL': JSON.stringify(
         process.env.TARO_APP_API_URL,
       ),
+      'process.env.TARO_APP_IS_H5': JSON.stringify(
+        process.env.TARO_ENV === 'h5',
+      ),
     },
     copy: {
       patterns: [],
@@ -75,8 +78,8 @@ export default defineConfig(async (merge) => {
       },
     },
     h5: {
-      esnextModules: ['taro-ui'],
-      publicPath: '/',
+      esnextModules: ['taro-ui', 'chatui', 'antd-mobile'],
+      publicPath: process.env.NODE_ENV === 'development' ? '/' : '/wxapp/',
       staticDirectory: 'static',
       output: {
         filename: 'js/[name].[hash:8].js',
@@ -99,6 +102,9 @@ export default defineConfig(async (merge) => {
             generateScopedName: '[name]__[local]___[hash:base64:5]',
           },
         },
+      },
+      devServer: {
+        hot: false,
       },
       webpackChain(chain) {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin);

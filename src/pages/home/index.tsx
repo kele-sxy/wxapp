@@ -1,16 +1,10 @@
-import {
-  View,
-  Text,
-  Image,
-  MovableArea,
-  MovableView,
-} from '@tarojs/components';
+import { View, Text, Image } from '@tarojs/components';
 import { MainTitle, Normal, Other } from './compnents';
 import { useState } from 'react';
 import { useDidShow, useShareAppMessage } from '@tarojs/taro';
 import { getVoucherNum } from '@/services/voucher';
 import colourSpeaker from '@/assets/svg/colour-speaker.svg';
-import serviceCenter from '@/assets/service-center';
+import serviceCenter from '@/assets/svg/service-center.svg';
 import Taro from '@tarojs/taro';
 import { checkBuriedPointCode, checkLoginStatus } from '@/utils';
 import './index.less';
@@ -23,8 +17,6 @@ export default function Index() {
 
   useShareAppMessage(() => {
     return {
-      title: '信誉护航，让信任看得见',
-      imageUrl: `${process.env.TARO_APP_API_URL}/common_share.png`,
       path: `/pages/home/index`,
     };
   });
@@ -46,8 +38,14 @@ export default function Index() {
   });
 
   return (
-    <View className='bg-gradient-to-b from-[#3F77F7] to-[#F3F4F8] min-h-screen'>
-      <View className='pt-5'>
+    <View className='bg-gradient-to-b from-[#3F77F7] to-[#F3F4F8] min-h-screen pt-5'>
+      {/* <CustomNavBar
+        color='#0E1836'
+        title='信誉护航'
+        leftIconType=''
+        gradient={false}
+      /> */}
+      <View>
         <MainTitle />
         {!!voucherNum && (
           <View
@@ -71,21 +69,14 @@ export default function Index() {
         </View>
       </View>
       {showService && (
-        <MovableArea className='movable-area w-screen h-screen fixed top-0 right-0 bottom-0 left-0'>
-          <MovableView
-            className='movable-view w-14 h-14 bottom-10 right-2'
-            x='800'
-            y='800'
-            direction='all'>
-            <Image
-              className='w-14 h-14 z-50'
-              src={serviceCenter}
-              onClick={() => {
-                Taro.navigateTo({ url: '/subpackages/answer-center/index' });
-              }}
-            />
-          </MovableView>
-        </MovableArea>
+        <View className='fixed bottom-32 right-2'>
+          <Image
+            className='w-14 h-14 z-50'
+            src={serviceCenter}
+            onClick={() => {
+              Taro.navigateTo({ url: '/subpackages/answer-center/index' });
+            }}></Image>
+        </View>
       )}
     </View>
   );

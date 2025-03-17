@@ -39,7 +39,7 @@ export default function InfoCard(props: InfoCardProps) {
       )}
       <View
         className='card__content'
-        style={{ paddingTop: title ? '0rpx' : '20rpx' }}>
+        style={{ paddingTop: title ? '0px' : '10px' }}>
         {children}
       </View>
     </View>

@@ -8,9 +8,6 @@ import { AtCurtain } from 'taro-ui';
 import './index.less';
 
 export default function BannerNotice() {
-  // 获取胶囊按钮位置信息 info.left 为按钮左边界坐标
-  const info = Taro.getStorageSync('menuButtonInfo');
-
   const router = useRouter();
   const { carouselId } = router?.params;
 
@@ -41,9 +38,9 @@ export default function BannerNotice() {
         border
         title={bannerDetail.title}
       />
-      <View className='at-article' style={{ paddingTop: `${info.bottom}px` }}>
+      <View className='at-article'>
         {bannerDetail.memo && (
-          <View className='at-article__h2'>{bannerDetail.memo}</View>
+          <View className='at-article__h2 mt-0'>{bannerDetail.memo}</View>
         )}
         <View className='at-article__content'>
           <View className='at-article__section'>

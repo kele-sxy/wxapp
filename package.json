@@ -42,6 +42,8 @@
   "author": "",
   "dependencies": {
     "@babel/runtime": "^7.21.5",
+    "@chatui/core": "^2.4.2",
+    "@microsoft/fetch-event-source": "^2.0.1",
     "@tarojs/components": "3.6.31",
     "@tarojs/helper": "3.6.31",
     "@tarojs/plugin-framework-react": "3.6.31",
@@ -57,8 +59,7 @@
     "@tarojs/runtime": "3.6.31",
     "@tarojs/shared": "3.6.31",
     "@tarojs/taro": "3.6.31",
-    "@toast-ui/react-editor": "^3.2.3",
-    "@wsc-tech/wsc-taro-form": "^0.2.1",
+    "antd-mobile": "^5.38.1",
     "classnames": "^2.5.1",
     "crypto-js": "^4.2.0",
     "htmlparser2": "^9.1.0",
@@ -66,8 +67,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "taro-ui": "^3.3.0",
-    "taro-vform": "^1.0.1",
-    "tui-editor": "^1.4.10"
+    "weixin-js-sdk": "^1.6.5"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",

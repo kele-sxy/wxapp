@@ -35,19 +35,3 @@ export const getVoucherReportList = (voucherRecordUserId: string) => {
     data: { voucherRecordUserId },
   });
 };
-
-// 扫码领券列表
-export const getVoucherScanList = (voucherRecordId: string) => {
-  return appRequest.post({
-    url: '/voucher/scan/list',
-    data: { voucherRecordId },
-  });
-};
-
-// 扫码领取
-export const getVoucherScan = (data: any) => {
-  return appRequest.post({
-    url: '/voucher/scan/claim',
-    data,
-  });
-};

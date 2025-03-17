@@ -14,10 +14,6 @@ type CheckDetail = {
 
 export interface ReportDetailProps {
   /**
-   * 报告水印
-   */
-  watermark: string;
-  /**
    * 报告是否过期
    * 0-未过期，1-已过期
    */
@@ -341,20 +337,20 @@ export const CANVAS_COLOR_MAP = {
   },
   [REPORT_KEY_ENUM.pre_education]: {
     bgLinearGradint:
-      'linear-gradient(180deg, #FFF4F4 0%, #FFF6F6 18%, #FFF7F7 100%)',
+      'linear-gradient(180deg, #FFF5F5 0%, #FFF5F5 18%, #FFF5F5 100%)',
     cardBgColor: 'bg-[#FFF5F5]',
     textColor: 'text-[#FF5959]',
 
     baseColor: 'rgba(255, 91, 91, 1)',
     linearColor: ['rgba(255, 207, 208, 1)', 'rgba(255, 73, 83, 1)'],
     lineColor: 'rgba(255, 73, 83, 1)',
-    shadowColor: 'rgba(255,223,226,1)',
+    shadowColor: 'rgba(255,223,226,0.6)',
     circleColors: [
       'rgba(255, 224, 224, 1)',
       'rgba(255, 224, 224, 1)',
       'rgba(255, 239, 240, 1)',
       'rgba(255, 255, 255, 1)',
-      'rgba(255, 247, 247, 1)',
+      'rgba(255, 243, 244, 1)',
     ],
   },
 };

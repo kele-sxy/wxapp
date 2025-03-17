@@ -154,25 +154,14 @@ export const scrollToBottom = () => {
 
 //格式化富文本
 export const parseRichText = (htmlString) => {
-  const content = htmlString
-    .replace(/<table/g, '<table class="table"')
-    .replace(/<tr/g, '<tr class="tr"')
-    .replace(/<th/g, '<tr class="th"')
-    .replace(/<td/g, '<td class="td"');
-
-  const document = parseDocument(content);
+  const document = parseDocument(htmlString);
   const nodes = DomUtils.getChildren(document);
 
   const transformNode = (node) => {
     if (node.name === 'img' && node.attribs.src?.includes(MINIO_PREFIX)) {
-      node.attribs.src = process.env.TARO_APP_API_URL + node.attribs.src;
+      node.attribs.src = window.location.origin + node.attribs.src;
       if (!node.attribs.style) node.attribs.style = 'width: 100%;';
     }
-
-    if (node.name === 'p' && !node.attribs.style) {
-      node.attribs.style = 'min-height:18px;';
-    }
-
     if (node.type === 'text') {
       return { type: 'text', text: node.data };
     }
@@ -254,6 +243,14 @@ export const clearToken = () => {
   Taro.removeStorageSync('__weapp_token__');
 };
 
+// set isWebView
+export const setIsWebView = (webview: boolean) => {
+  Taro.setStorageSync('webview', webview);
+};
+
+// get isWebView
+export const getIsWebView = () => Taro.getStorageSync('webview');
+
 // 判断缓存中是否存在 token 存在 token 调用形参中的函数参数 不存在跳 登录 页面
 export const checkLoginStatus = async () => {
   const token = getToken(); // 拿到本地缓存中存的token
@@ -266,7 +263,6 @@ export const checkLoginStatus = async () => {
   return effective;
 };
 
-// aes加密
 export const aesEncrypt = (plaintext, secretKey) => {
   const key = CryptoJS.enc.Utf8.parse(secretKey);
   const iv = CryptoJS.enc.Utf8.parse(secretKey.substring(0, 16)); // 取密钥前16字节作为IV
@@ -278,18 +274,16 @@ export const aesEncrypt = (plaintext, secretKey) => {
   return encrypted.toString(); // 返回 Base64 格式密文
 };
 
-// 扫码进入
-// 现在有两种二维码：1 携带渠道 id 2 携带代金券凭证
-export const scanCode = (query, path) => {
-  // 扫了代金券的码 渠道码的 path 是首页 pages/home/index
-  const scanVoucher = path.includes('subpackages/receive-voucher/index');
-  // url 中可能是 代金券凭证 也可能是 渠道码
-  const scene = query?.scene ? decodeURIComponent(query.scene) : null;
-  if (scene && scanVoucher) Taro.setStorageSync('voucherRecordId', scene);
-  if (scene && !scanVoucher) {
-    Taro.setStorageSync('channelId', scene);
-    Taro.removeStorageSync('voucherRecordId');
-  }
+// aes 解密
+export const aesDecrypt = (ciphertext, secretKey) => {
+  const key = CryptoJS.enc.Utf8.parse(secretKey);
+  const iv = CryptoJS.enc.Utf8.parse(secretKey.substring(0, 16)); // 取密钥前16字节作为IV
+  const decrypted = CryptoJS.AES.decrypt(ciphertext, key, {
+    iv: iv,
+    mode: CryptoJS.mode.CBC,
+    padding: CryptoJS.pad.Pkcs7,
+  });
+  return CryptoJS.enc.Utf8.stringify(decrypted); // 转成明文字符串
 };
 
 // 存储埋点唯一 code

@@ -2,20 +2,13 @@ import { View, Text, Image } from '@tarojs/components';
 import TopViewBg from '@/components/TopViewBg';
 import CustomNavBar from '@/components/CustomNavBar';
 import { useEffect, useMemo, useState } from 'react';
-import Taro, { useDidShow, useRouter } from '@tarojs/taro';
+import Taro, { useDidShow } from '@tarojs/taro';
 import InfoCard from '@/components/InfoCard';
-import { hasEmptyProperty, isValidPhoneNumber, jsonParse } from '@/utils';
+import { hasEmptyProperty, isValidPhoneNumber } from '@/utils';
 import FunctionItem from '@/components/FunctionItem';
-import {
-  AtActivityIndicator,
-  AtButton,
-  AtForm,
-  AtIcon,
-  AtInput,
-  AtSegmentedControl,
-} from 'taro-ui';
+import { AtButton, AtForm, AtIcon, AtInput } from 'taro-ui';
 import CustomCheckbox from '@/components/CustomCheckBox';
-import { getUserInfo, sendSmsCode } from '@/services/login';
+import { sendSmsCode } from '@/services/login';
 import imageBg from '@/subpackages/report/images/search-bg';
 import { checkIdentity } from '@/services/report';
 import voucherRed from '@/assets/svg/voucher-red.svg';
@@ -31,9 +24,8 @@ interface SearchInfoProps {
 }
 
 export default function Index() {
-  const router = useRouter();
-  const params = router?.params;
-  const baseInfo = params?.info ? jsonParse(params?.info) : {};
+  const baseInfo = Taro.getStorageSync('searchReportVersion');
+  console.log('🚀 ~ Index ~ baseInfo:', baseInfo);
 
   const [pickedVoucher, setPickedVoucher] = useState<any>({
     voucherRecordUserId: undefined,
@@ -57,9 +49,6 @@ export default function Index() {
   const [loading, setLoading] = useState(false);
   const [couponList, setCouponList] = useState<any[]>([]);
 
-  const [currentTab, setCurrentTab] = useState(0);
-  const [getOwnInfoLoading, setGetOwnInfoLoading] = useState(false);
-
   const btnDisabled = useMemo(() => {
     // 判断 searchInfo 是否有属性为空
     return hasEmptyProperty(searchInfo) || !checked;
@@ -74,29 +63,6 @@ export default function Index() {
       return () => clearTimeout(timer);
     }
   }, [countdown]);
-
-  // 查自己时 获取用户三要素信息
-  const getOwnInfo = () => {
-    setGetOwnInfoLoading(true);
-    getUserInfo()
-      .then((res) => {
-        if (res?.data) {
-          const { name, idCard, phone } = res?.data;
-          setSearchInfo({
-            queryName: name,
-            queryIdcard: idCard,
-            queryMobile: phone,
-          });
-        }
-      })
-      .finally(() => {
-        setGetOwnInfoLoading(false);
-      });
-  };
-
-  useDidShow(() => {
-    getOwnInfo();
-  });
 
   const handleSendCode = () => {
     if (countdown > 0 || isSending) return;
@@ -206,16 +172,6 @@ export default function Index() {
       : (baseInfo?.amount - voucherAmount) / 100;
   };
 
-  // clear form
-  const clearForm = () => {
-    setSearchInfo({
-      queryName: '',
-      queryIdcard: '',
-      queryMobile: '',
-      verificationCode: '',
-    });
-  };
-
   return (
     <View>
       <TopViewBg imageBg={imageBg}>
@@ -223,98 +179,81 @@ export default function Index() {
       </TopViewBg>
       <View className='mx-3 pb-6 -mt-10'>
         <InfoCard title='基本信息'>
-          <AtSegmentedControl
-            values={['查自己', '查他人']}
-            onClick={(v) => {
-              setCurrentTab(v);
-              if (v === 1) clearForm();
-              if (v === 0) getOwnInfo();
-            }}
-            current={currentTab}
-            className='mb-3'
-          />
           <AtForm>
-            <View className='relative'>
-              <AtActivityIndicator
-                className='z-10'
-                isOpened={getOwnInfoLoading}
-                mode='center'
-              />
-              <AtInput
-                clear
-                cursor={-1}
-                name='queryName'
-                title='姓名'
-                type='text'
-                placeholder='请输入被查询人真实姓名'
-                placeholderClass='placeholder'
-                value={searchInfo.queryName}
-                onChange={(v: string) => {
-                  if (v === searchInfo.queryName) return;
-                  setSearchInfo((prev) => ({
-                    ...prev,
-                    queryName: v,
-                  }));
-                }}
-              />
-              <AtInput
-                clear
-                cursor={-1}
-                name='queryIdcard'
-                title='身份证号'
-                type='idcard'
-                placeholder='请输入被查询人身份证号码'
-                placeholderClass='placeholder'
-                value={searchInfo.queryIdcard}
-                onChange={(v: string) => {
-                  if (v === searchInfo.queryIdcard) return;
-                  setSearchInfo((prev) => ({
-                    ...prev,
-                    queryIdcard: v,
-                  }));
-                }}
-              />
-              <AtInput
-                clear
-                cursor={-1}
-                name='queryMobile'
-                title='手机号'
-                type='phone'
-                placeholder='请输入被查询人手机号'
-                placeholderClass='placeholder'
-                value={searchInfo.queryMobile}
-                onChange={(v: string) => {
-                  if (v === searchInfo.queryMobile) return;
-                  setSearchInfo((prev) => ({
-                    ...prev,
-                    queryMobile: v,
-                  }));
-                }}
-              />
-              <AtInput
-                clear
-                cursor={-1}
-                name='verificationCode'
-                title='验证码'
-                type='number'
-                placeholder='请输入手机验证码'
-                placeholderClass='placeholder'
-                value={searchInfo.verificationCode}
-                onChange={(v: string) => {
-                  if (v === searchInfo.verificationCode) return;
-                  setSearchInfo((prev) => ({
-                    ...prev,
-                    verificationCode: v,
-                  }));
-                }}>
-                <Text
-                  className='link-button'
-                  style={{ color: countdown === 0 ? '#4F7FFF' : '#D5D5D5' }}
-                  onClick={handleSendCode}>
-                  {countdown > 0 ? `${countdown}s后重新获取` : '获取验证码'}
-                </Text>
-              </AtInput>
-            </View>
+            <AtInput
+              clear
+              cursor={-1}
+              name='queryName'
+              title='姓名'
+              type='text'
+              placeholder='请输入被查询人真实姓名'
+              placeholderClass='placeholder'
+              value={searchInfo.queryName}
+              onChange={(v: string) => {
+                if (v === searchInfo.queryName) return;
+                setSearchInfo((prev) => ({
+                  ...prev,
+                  queryName: v,
+                }));
+              }}
+            />
+            <AtInput
+              clear
+              cursor={-1}
+              name='queryIdcard'
+              title='身份证号'
+              type='idcard'
+              placeholder='请输入被查询人身份证号码'
+              placeholderClass='placeholder'
+              value={searchInfo.queryIdcard}
+              onChange={(v: string) => {
+                if (v === searchInfo.queryIdcard) return;
+                setSearchInfo((prev) => ({
+                  ...prev,
+                  queryIdcard: v,
+                }));
+              }}
+            />
+            <AtInput
+              clear
+              cursor={-1}
+              name='queryMobile'
+              title='手机号'
+              type='phone'
+              placeholder='请输入被查询人手机号'
+              placeholderClass='placeholder'
+              value={searchInfo.queryMobile}
+              onChange={(v: string) => {
+                if (v === searchInfo.queryMobile) return;
+                setSearchInfo((prev) => ({
+                  ...prev,
+                  queryMobile: v,
+                }));
+              }}
+            />
+            <AtInput
+              clear
+              cursor={-1}
+              name='verificationCode'
+              title='验证码'
+              type='number'
+              placeholder='请输入手机验证码'
+              placeholderClass='placeholder'
+              value={searchInfo.verificationCode}
+              onChange={(v: string) => {
+                if (v === searchInfo.verificationCode) return;
+                setSearchInfo((prev) => ({
+                  ...prev,
+                  verificationCode: v,
+                }));
+              }}>
+              <Text
+                className='link-button'
+                style={{ color: countdown === 0 ? '#4F7FFF' : '#D5D5D5' }}
+                onClick={handleSendCode}>
+                {countdown > 0 ? `${countdown}s后重新获取` : '获取验证码'}
+              </Text>
+            </AtInput>
             <View
               className='py-2 flex items-center justify-between'
               onClick={() => {
@@ -383,7 +322,7 @@ export default function Index() {
             <AtButton
               type='primary'
               circle
-              className='mt-3'
+              className='!mt-3 !h-10 flex-center'
               disabled={btnDisabled}
               loading={searching}
               onClick={() => onSubmit()}>

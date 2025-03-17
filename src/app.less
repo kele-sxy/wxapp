@@ -2,6 +2,33 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+html,
+body {
+  height: 100% !important;
+}
+
+.taro-tabbar__tabbar {
+  height: 120px !important;
+  .weui-tabbar {
+    align-items: flex-start;
+  }
+  &.taro-tabbar__tabbar-bottom {
+    position: fixed;
+    bottom: 0;
+  }
+}
+
+.taro-tabbar__panel:has(~ .taro-tabbar__tabbar-hide) {
+  padding-bottom: 0;
+}
+
+.taro-tabbar__panel {
+  padding-bottom: 120px;
+}
+
+* {
+  box-sizing: border-box;
+}
 .custom-tips {
   box-shadow: 0rpx 0rpx 10rpx 6rpx rgba(1, 28, 214, 0.15);
   border-radius: 10rpx;
@@ -9,48 +36,59 @@
   .count-num {
     color: #4f7fff;
   }
-  .noticebar-wrapper {
-    flex-grow: 1;
-    margin-right: 48px;
-    overflow: hidden;
-  }
-  .noticebar-content {
-    display: inline-block;
-    animation: scroll-horizontal 6s linear infinite;
-  }
 }
 
-@keyframes scroll-horizontal {
-  0% {
-    transform: translateX(100%);
-  }
-  100% {
-    transform: translateX(-100%);
+.at-article {
+  .at-article__h2 {
+    color: #151515;
   }
 }
-
 // 富文本字体
 rich-text {
   font-size: 24rpx;
-  .table {
+}
+taro-rich-text-core {
+  p {
+    min-height: 32px;
+  }
+  table {
     margin: 20px 0;
-    border-collapse: collapse;
-    box-sizing: border-box;
-    .th {
-      border: 2px solid #ccc;
+    th {
+      border: 1px solid #ccc;
       background-color: #f5f2f0;
       font-weight: 700;
       text-align: center;
-      min-width: 40px;
-      display: table-cell;
     }
-    .td {
-      border: 2px solid #ccc;
+    td {
+      border: 1px solid #ccc;
       padding: 6px 10px;
       height: 60px;
-      display: table-cell;
       line-height: 1.5;
     }
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    // color: #000000d9;
+    font-weight: 500;
+  }
+  h1 {
+    font-size: 2em;
+  }
+  h2 {
+    font-size: 1.5em;
+  }
+  h3 {
+    font-size: 1.17em;
+  }
+  h5 {
+    font-size: 0.83em;
+  }
+  h6 {
+    font-size: 0.67em;
   }
 }
 
@@ -74,10 +112,13 @@ rich-text {
 .inherit {
   position: inherit;
 }
+
+input::placeholder,
 .placeholder {
-  font-size: 25rpx;
-  color: #bcc2cc;
+  font-size: 24rpx;
+  color: #bcc2cc !important;
 }
+
 .at-form {
   .at-input {
     margin-left: 0;
@@ -167,6 +208,28 @@ rich-text {
       border-radius: 3rpx;
     }
   }
+}
+
+.Modal-title,
+.Popup-title {
+  font-weight: 400 !important;
+}
+.Popup-close {
+  .Icon {
+    font-size: 48px;
+  }
+}
+
+// 提出公共样式
+.arrow {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: solid #193059;
+  border-width: 0 2px 2px 0;
+  transform: rotate(-45deg);
+  margin-right: 8px;
 }
 
 .radio-check {

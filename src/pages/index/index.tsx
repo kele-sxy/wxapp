@@ -13,7 +13,6 @@ import MyService from './components/MyService';
 interface IProps {}
 
 const My: FC<IProps> = () => {
-  const menuButtonInfo = Taro.getStorageSync('menuButtonInfo');
   const [info, setInfo] = useState<any>({});
   const [effective, setEffective] = useState(false);
   const curUserInfo = async () => {
@@ -28,8 +27,6 @@ const My: FC<IProps> = () => {
 
   useShareAppMessage(() => {
     return {
-      title: '信誉护航，让信任看得见',
-      imageUrl: `${process.env.TARO_APP_API_URL}/common_share.png`,
       path: `/pages/home/index`,
     };
   });
@@ -41,12 +38,8 @@ const My: FC<IProps> = () => {
     });
   });
   return (
-    <View className='bg-gradient-to-b from-[#C0E0FE] to-[#F3F4F8] min-h-screen'>
-      <View
-        className='bg-transparent px-3 pb-4'
-        style={{
-          paddingTop: `${menuButtonInfo.top + menuButtonInfo.height + 30}px`,
-        }}>
+    <View className='bg-gradient-to-b from-[#C0E0FE] to-[#F3F4F8] min-h-full'>
+      <View className='bg-transparent px-3 pb-4 index-page-container'>
         {effective ? <Header info={info} /> : <UnLoginHeader />}
         <ReportList />
         {effective && <MyService info={info} />}

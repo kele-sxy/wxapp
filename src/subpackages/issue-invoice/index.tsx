@@ -181,25 +181,7 @@ const Invoice: FC<InvoiceProps> = () => {
                   ...prev,
                   title: v,
                 }));
-              }}>
-              {isCompany && (
-                <AtIcon
-                  color='#000'
-                  size='16'
-                  onClick={() => {
-                    Taro.chooseInvoiceTitle({
-                      success: (res) => {
-                        setInvoiceInfo((prev) => ({
-                          ...prev,
-                          ...res,
-                        }));
-                      },
-                    });
-                  }}
-                  value='list'
-                />
-              )}
-            </AtInput>
+              }}></AtInput>
           </View>
         </View>
         {isCompany && (
@@ -371,7 +353,7 @@ const Invoice: FC<InvoiceProps> = () => {
         </View> */}
       </View>
       <View
-        className='fixed bottom-0 left-0 right-0 px-3 pt-2 bg-white'
+        className='fixed bottom-0 left-0 right-0 px-3 py-2 bg-white'
         style={{ paddingBottom: `${safeArea?.top ?? 0}rpx` }}>
         <View
           className='rounded-2xl bg-[#118DFF] text-white py-2 text-sm flex items-center justify-center'

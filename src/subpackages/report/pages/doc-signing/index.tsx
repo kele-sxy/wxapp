@@ -8,7 +8,7 @@ import CustomCheckbox from '@/components/CustomCheckBox';
 import { useEffect, useState } from 'react';
 import { getCanvasSize, toDataURL } from '@/utils/canvasUtils';
 import { getSignProtocol, sendReportSearch } from '@/services/report';
-import { formatTime, getJsCode, parseRichText } from '@/utils';
+import { formatTime, parseRichText } from '@/utils';
 
 import imageBg from '@/assets/report-bg-sm';
 // const imageBg = require('@/assets/images/report-bg-sm.png');
@@ -71,21 +71,30 @@ export default function Index() {
     if (type === 'name') ctx.scale(0.5, 1);
     // 绘制
     const result = await toDataURL(canvasId, ctx, false);
-    type === 'date'
-      ? setDateUrl(result.tempFilePath)
-      : setSignTextUrl(result.tempFilePath);
-    // 获取base64
-    Taro.getFileSystemManager().readFile({
-      filePath: result.tempFilePath,
-      encoding: 'base64',
-      success: (fileRes) => {
-        const base64 = 'data:image/png;base64,' + fileRes.data;
-        type === 'date' ? setDateBase(base64) : setNameBase(base64);
-      },
-      fail: (err) => {
-        console.error('读取文件失败:', err);
-      },
-    });
+    // h5 版本 result.tempFilePath 本身就是 完整base64
+    if (type === 'date') {
+      setDateUrl(result.tempFilePath);
+      setDateBase(result.tempFilePath);
+    } else {
+      setSignTextUrl(result.tempFilePath);
+      setNameBase(result.tempFilePath);
+    }
+    // 小程序的逻辑 h5 不需要
+    // type === 'date'
+    //   ? setDateUrl(result.tempFilePath)
+    //   : setSignTextUrl(result.tempFilePath);
+    // // 获取base64
+    // Taro.getFileSystemManager().readFile({
+    //   filePath: result.tempFilePath,
+    //   encoding: 'base64',
+    //   success: (fileRes) => {
+    //     const base64 = 'data:image/png;base64,' + fileRes.data;
+    //     type === 'date' ? setDateBase(base64) : setNameBase(base64);
+    //   },
+    //   fail: (err) => {
+    //     console.error('读取文件失败:', err);
+    //   },
+    // });
   };
 
   // const handleSignature = (data) => {
@@ -142,13 +151,14 @@ export default function Index() {
 
   const submitSign = async () => {
     if (loading) return;
-    const code: string = await getJsCode();
+    // h5 版本 没有该方法
+    // const code: string = await getJsCode();
     setLoading(true);
     sendReportSearch({
       ...searchInfo,
       signatureName: nameBase,
       signatureDate: dateBase,
-      jsCode: code,
+      // jsCode: code,
     })
       .then((res) => {
         const { payInfo, needPay } = res.data;
@@ -238,9 +248,9 @@ export default function Index() {
             <RichText nodes={richTextNodes} />
             <View className='flex mt-4 text-[#000000] h-9'>
               <View className='flex flex-1 items-center'>
-                <Text>签名：</Text>
+                <Text className='text-sm'>签名：</Text>
                 {!signTextUrl && (
-                  <Text className='text-[#BFBFBF] text-[24rpx] leading-[22rpx]'>
+                  <Text className='text-[#BFBFBF] text-xs leading-[22rpx]'>
                     请点击下方签名签署
                   </Text>
                 )}
@@ -249,9 +259,9 @@ export default function Index() {
                 )}
               </View>
               <View className='flex flex-1 items-center'>
-                <Text>日期：</Text>
+                <Text className='text-sm'>日期：</Text>
                 {!dateUrl && (
-                  <Text className='text-[#BFBFBF] text-[24rpx] leading-[22rpx]'>
+                  <Text className='text-[#BFBFBF] text-xs leading-[22rpx]'>
                     请点击下方日期签署
                   </Text>
                 )}
@@ -319,7 +329,7 @@ export default function Index() {
           <AtButton
             type='primary'
             circle
-            className='m-0 w-[300rpx]'
+            className='!m-0 w-[300rpx] !h-10 flex-center'
             loading={loading}
             disabled={!dateUrl || !signTextUrl || !isBottom}
             onClick={submitSign}>

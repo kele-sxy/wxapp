@@ -19,6 +19,7 @@ export default {
           },
         },
       },
+      compress: false,
     },
   },
 } satisfies UserConfigExport;

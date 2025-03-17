@@ -45,7 +45,7 @@ const VoucherRadio: FC<VoucherCardProps> = (props) => {
           {checked && <AtIcon color='#fff' size='13rpx' value='check' />}
         </View>
       </View>
-      <View className='px-5 py-2.5 text-[#00427E] text-xs bg-[#D3EBFF] border-t-2 border-dashed border-[#4F7FFF]'>
+      <View className='px-5 py-2.5 text-[#00427E] text-xs bg-[#D3EBFF] border-0 border-t-2 border-dashed border-[#4F7FFF]'>
         购买{REPORT_ENUM[reportType]}报告{REPORT_TYPE_ENUM[reportLevel]}
       </View>
     </View>

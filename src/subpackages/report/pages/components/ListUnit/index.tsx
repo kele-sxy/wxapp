@@ -1,16 +1,8 @@
 import { View } from '@tarojs/components';
-import { useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ListItem from '../ListItem';
-import { reportList, shareReport } from './service';
-import {
-  AtIcon,
-  AtInput,
-  AtButton,
-  AtModal,
-  AtModalAction,
-  AtModalContent,
-  AtModalHeader,
-} from 'taro-ui';
+import { reportList } from './service';
+import { AtIcon, AtInput } from 'taro-ui';
 import './index.less';
 import { useDidHide, useDidShow } from '@tarojs/taro';
 import Taro from '@tarojs/taro';
@@ -18,16 +10,13 @@ import { REPORT_STATUS } from '@/constant';
 import EmptyStatus from '@/components/Empty';
 import empty from '@/assets/empty-list';
 
-import { isValidPhoneNumber } from '@/utils';
-
-function ListUnit({ type, forwardRef }) {
+function ListUnit({ type }) {
   const [data, setData] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const [queryStr, setQueryStr] = useState('');
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const [reportInfo, setReportInfo] = useState<any>({});
 
   const curGetList = async (res: any, closeLoading = false) => {
     if (loading) return;
@@ -95,51 +84,6 @@ function ListUnit({ type, forwardRef }) {
     curGetList({ status: type, query: queryStr });
   });
 
-  const [showShareModal, setShowShareModal] = useState(false);
-  const [sharePhone, setSharePhone] = useState('');
-
-  const handleShare = (reportId, reportType) => {
-    setSharePhone('');
-    setShowShareModal(true);
-    setReportInfo({ reportId, reportType });
-  };
-
-  const handeShareClose = () => {
-    setSharePhone('');
-    setShowShareModal(false);
-    setReportInfo({});
-  };
-
-  const handleShareReport = async () => {
-    if (!sharePhone) {
-      Taro.showToast({
-        title: '请输入手机号码',
-        icon: 'none',
-      });
-      return;
-    }
-
-    if (!isValidPhoneNumber(sharePhone)) {
-      Taro.showToast({
-        title: '请输入正确的手机号码',
-        icon: 'none',
-      });
-      return;
-    }
-
-    return shareReport({
-      reportId: reportInfo.reportId,
-      shareMobile: sharePhone,
-    }).finally(() => {
-      handeShareClose();
-    });
-  };
-
-  useImperativeHandle(forwardRef, () => ({
-    handleShareReport,
-    getReportInfo: () => reportInfo,
-  }));
-
   return (
     <View className='bg-base-bg px-[32px] min-h-[100vh] h-[100%] pb-[32px]'>
       <View className='search-container'>
@@ -182,47 +126,8 @@ function ListUnit({ type, forwardRef }) {
         <EmptyStatus title='暂无数据' icon={empty} />
       )}
       {(data || []).map((item: any) => {
-        return (
-          <ListItem reload={reload} handleShare={handleShare} item={item} />
-        );
+        return <ListItem reload={reload} item={item} />;
       })}
-      {showShareModal && (
-        <AtModal
-          isOpened={showShareModal}
-          onClose={() => setShowShareModal(false)}>
-          <AtModalHeader>转发给朋友</AtModalHeader>
-          <AtModalContent>
-            <View className='py-4'>
-              <AtInput
-                clear
-                cursor={-1}
-                name='phone'
-                placeholderClass='text-[#BFBFBF] text-sm'
-                placeholder='请输入被分享人的手机号码'
-                value={sharePhone}
-                type='phone'
-                onChange={(v: any) => setSharePhone(v)}
-              />
-            </View>
-          </AtModalContent>
-          <AtModalAction>
-            <AtButton className='!h-9' onClick={() => setShowShareModal(false)}>
-              <View className='text-sm flex items-center h-full'>取消</View>
-            </AtButton>
-            <AtButton
-              className='!h-9'
-              type='primary'
-              openType={
-                sharePhone && isValidPhoneNumber(sharePhone)
-                  ? 'share'
-                  : undefined
-              }
-              onClick={() => handleShareReport()}>
-              <View className='text-sm flex items-center h-full'>确定</View>
-            </AtButton>
-          </AtModalAction>
-        </AtModal>
-      )}
     </View>
   );
 }

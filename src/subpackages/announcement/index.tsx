@@ -5,6 +5,7 @@ import ListUnit from '../components/ListUnit';
 import { useDidShow } from '@tarojs/taro';
 import EmptyStatus from '@/components/Empty';
 import empty from '@/assets/empty-list';
+import CustomNavBar from '@/components/CustomNavBar';
 
 interface AnnouncementProps {}
 
@@ -44,7 +45,8 @@ const Announcement: FC<AnnouncementProps> = () => {
   });
 
   return (
-    <View className='bg-base-bg px-[32px] h-[100vh] pt-[16px]'>
+    <View className='bg-base-bg px-[32px] h-[100vh]'>
+      <CustomNavBar color='#0E1836' title='公告' gradient={false} />
       {!list.length && !loading && (
         <EmptyStatus title='暂无公告' icon={empty} />
       )}

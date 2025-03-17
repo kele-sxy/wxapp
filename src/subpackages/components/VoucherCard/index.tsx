@@ -1,20 +1,18 @@
 import { View, Text, Image } from '@tarojs/components';
 import { FC, useState } from 'react';
 import { used as usedUrl, invalid as invalidUrl } from './images';
-import { VOUCHER_STATUS_ENUM, VOUCHER_TYPE_MENU } from '@/constant';
+import { VOUCHER_TYPE_MENU } from '@/constant';
 import './index.less';
 import { AtIcon } from 'taro-ui';
-import { getMyVoucher, getVoucherScan } from '@/services/voucher';
+import { getMyVoucher } from '@/services/voucher';
 import Taro from '@tarojs/taro';
 import { formatTime, getAllUsage, handleVoucherUsage } from './utils';
-import { checkLoginStatus } from '@/utils';
 
 interface VoucherCardProps {
   voucher: any;
   invalid?: boolean; //是否失效
   used?: boolean; // 是否已使用
   unclaimed?: boolean; // 待领取
-  scanVoucherRecordId?: string; // 扫码获得的代金券凭证
   openFloat?: () => void;
 }
 
@@ -25,7 +23,6 @@ const VoucherCard: FC<VoucherCardProps> = (props) => {
     invalid = false,
     used = false,
     unclaimed = false,
-    scanVoucherRecordId,
   } = props;
   const {
     amount,
@@ -34,42 +31,16 @@ const VoucherCard: FC<VoucherCardProps> = (props) => {
     startTime,
     writeOffTime,
     voucherRecordUserId,
-    voucherRecordId,
     type,
-    isValid,
-    status,
+    isValid, // 代金券是否可用
   } = voucher;
 
   const [fold, setFold] = useState<boolean>(true);
 
   const disabled = used || invalid;
-
-  // 扫码进入领券页面 需要判断下券列表是否被当前登录人领过
-  const realUnclaimed = unclaimed && status === VOUCHER_STATUS_ENUM.UNCLAIMED;
-
-  const creditVoucher = () => {
-    getMyVoucher(voucherRecordUserId).then(() => {
-      Taro.navigateTo({
-        url: '/subpackages/voucher/index',
-      }).then(() => {
-        Taro.showToast({ title: '领取成功', icon: 'success' });
-      });
-    });
-  };
-
-  const getScanVoucher = () => {
-    getVoucherScan({ voucherRecordId }).then(() => {
-      Taro.navigateTo({
-        url: '/subpackages/voucher/index',
-      }).then(() => {
-        Taro.showToast({ title: '领取成功', icon: 'success' });
-      });
-    });
-  };
-
   return (
     <View
-      className={`bg-white rounded-xl mx-3 my-5 voucherCard ${disabled ? 'disabled' : ''}`}>
+      className={`bg-white rounded-xl mx-3 mb-5 voucherCard ${disabled ? 'disabled' : ''}`}>
       <View className='at-row overflow-hidden'>
         <View
           className={`at-col max-w-[28%] ${disabled ? 'bg-[#C4C4C4]' : 'bg-[#118DFF]'} flex flex-col items-center text-white`}>
@@ -123,22 +94,17 @@ const VoucherCard: FC<VoucherCardProps> = (props) => {
                   {VOUCHER_TYPE_MENU[type]}
                 </View>
                 <View
-                  className={`at-col mr-4 rounded-2xl ${realUnclaimed ? 'bg-[#118DFF]' : 'bg-[#C4C4C4]'} text-white px-4 py-[12rpx] text-xs text-center`}
+                  className='at-col mr-4 rounded-2xl bg-[#118DFF] text-white px-4 py-[12rpx] text-xs text-center'
                   onClick={() => {
-                    if (!realUnclaimed) return;
-                    if (scanVoucherRecordId) {
-                      checkLoginStatus().then((login) => {
-                        if (!login) {
-                          Taro.navigateTo({
-                            url: '/pages/login/index?redirect=/subpackages/receive-voucher/index',
-                          });
-                        } else getScanVoucher();
+                    getMyVoucher(voucherRecordUserId).then(() => {
+                      Taro.navigateTo({
+                        url: '/subpackages/voucher/index',
+                      }).then(() => {
+                        Taro.showToast({ title: '领取成功', icon: 'success' });
                       });
-                      return;
-                    }
-                    creditVoucher();
+                    });
                   }}>
-                  {realUnclaimed ? '立即领取' : '已领取'}
+                  立即领取
                 </View>
               </>
             )}

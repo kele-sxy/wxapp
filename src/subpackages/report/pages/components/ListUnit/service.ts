@@ -7,11 +7,3 @@ export const reportList = (data: any) => {
     data,
   });
 };
-
-// 分享报告
-export const shareReport = (data: any) => {
-  return appRequest.post({
-    url: '/report/order/share',
-    data,
-  });
-};

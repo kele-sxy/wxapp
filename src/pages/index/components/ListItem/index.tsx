@@ -1,7 +1,7 @@
 import { View, Image } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import './index.less';
 import { AtBadge } from 'taro-ui';
+import './index.less';
 
 function ListItem({ item, redDot }) {
   const { title, icon, target } = item;

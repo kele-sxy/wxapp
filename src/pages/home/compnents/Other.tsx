@@ -10,17 +10,7 @@ interface IProps {}
 
 const Other: FC<IProps> = () => {
   return (
-    <View
-      className='flex justify-between items-center justify-items-center bg-[#fff] rounded-[48px] mx-3 px-[32px] py-[24px]'
-      onClick={() => {
-        checkLoginStatus().then((res) => {
-          if (res)
-            Taro.navigateTo({
-              url: '/subpackages/report/pages/report-list/index',
-            });
-          else Taro.navigateTo({ url: '/pages/login/index' });
-        });
-      }}>
+    <View className='flex justify-between items-center justify-items-center bg-[#fff] rounded-[48px] mx-3 px-[32px] py-[24px]'>
       <View className='flex'>
         <View>
           <Image src={reportIcon} className='w-[96px] h-[96px]' />
@@ -36,21 +26,22 @@ const Other: FC<IProps> = () => {
       </View>
       <View>
         <AtButton
-          // onClick={() => {
-          //   checkLoginStatus().then((res) => {
-          //     if (res)
-          //       Taro.navigateTo({
-          //         url: '/subpackages/report/pages/report-list/index',
-          //       });
-          //     else Taro.navigateTo({ url: '/pages/login/index' });
-          //   });
-          // }}
+          onClick={() => {
+            checkLoginStatus().then((res) => {
+              if (res)
+                Taro.navigateTo({
+                  url: '/subpackages/report/pages/report-list/index',
+                });
+              else Taro.navigateTo({ url: '/pages/login/index' });
+            });
+          }}
           size={'small'}
           className={`bg-[#4F7FFF]`}
           circle={true}>
-          <View style={{ color: '#fff', fontSize: 12 }}>
+          <View style={{ color: '#fff', fontSize: 12 }} className='flex-center'>
             进入
-            <View className='arrow'></View>
+            <View className='white-arrow'></View>
+            {/* <AtIcon color='#fff' size={'12px'} value='chevron-right' /> */}
           </View>
         </AtButton>
       </View>

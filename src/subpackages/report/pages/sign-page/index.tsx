@@ -103,13 +103,13 @@ export default function SignPage() {
       <View className='absolute w-screen bottom-2.5 flex justify-center'>
         <AtButton
           type='primary'
-          className='text-[16rpx] h-4 leading-[0rpx] items-center px-2.5 mx-2'
+          className='text-[16px] h-4 leading-[0rpx] items-center px-2.5 mx-2'
           onClick={onClear}>
           重置
         </AtButton>
         <AtButton
           type='primary'
-          className='text-[16rpx] h-4 leading-[0rpx] items-center px-2.5 mx-2'
+          className='text-[16px] h-4 leading-[0rpx] items-center px-2.5 mx-2'
           onClick={onSubmit}>
           保存签名
         </AtButton>

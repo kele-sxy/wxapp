@@ -4,14 +4,15 @@ import ListItem from '../ListItem';
 
 interface IProps {
   list: any[];
+  redDot?: boolean;
 }
 
 const componentName: FC<IProps> = (props) => {
-  const { list } = props;
+  const { list, redDot } = props;
   return (
     <View className='bg-[#fff] rounded-2xl py-3 my-4'>
       {(list || []).map((item: any) => {
-        return <ListItem item={item} redDot={item.redDot} />;
+        return <ListItem item={item} redDot={redDot} />;
       })}
     </View>
   );

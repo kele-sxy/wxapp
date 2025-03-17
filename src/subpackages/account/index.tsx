@@ -11,6 +11,7 @@ import {
 import ListUnit from '../components/ListUnit';
 import { userLogout } from './service';
 import { clearToken } from '@/utils';
+import CustomNavBar from '@/components/CustomNavBar';
 
 interface AccountProps {}
 
@@ -54,13 +55,14 @@ const Account: FC<AccountProps> = () => {
   };
 
   return (
-    <View className='bg-base-bg px-[32px] h-[100vh] pt-[16px]'>
+    <View className='bg-base-bg px-3 h-full pt-2'>
+      <CustomNavBar color='#0E1836' title='账号设置' gradient={false} />
       <ListUnit list={list} />
       <AtButton
         onClick={() => {
           setVisible(true);
         }}
-        className='bg-[#fff] mb-[32px] border-[#fff]'
+        className='bg-white !mb-3 !border-white'
         circle={true}>
         退出登录
       </AtButton>
@@ -70,7 +72,7 @@ const Account: FC<AccountProps> = () => {
             url: '/subpackages/account/destroy-account/index',
           });
         }}
-        className='bg-[#fff] mb-[32px] border-[#fff]'
+        className='bg-white mb-3 !border-white'
         circle={true}>
         注销账号
       </AtButton>

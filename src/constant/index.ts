@@ -10,6 +10,7 @@
 // TELECOM_FRAUD_RECORD("电诈记录"),
 
 export const MINIO_PREFIX = '/gaia/v1/minio/';
+export const FTP_UPLOAD_FULL_URL = `/storage/info/information/upload`;
 
 export type REPORT_ITEM_ENUM = {
   /**
@@ -92,6 +93,36 @@ export const VOUCHER_TYPE_KEY = {
 export const VOUCHER_TYPE_MENU = {
   [VOUCHER_TYPE_KEY.CASH]: '现金券',
   [VOUCHER_TYPE_KEY.COUPONS]: '优惠券',
+};
+
+// 投诉类型
+export const COMPLAINT_TYPE_KEY = {
+  PAY_FAIL: 'PAY_FAIL',
+  REPORT_ABNORMAL: 'REPORT_ABNORMAL',
+  DATA_OBJECTION: 'DATA_OBJECTION',
+  REFUND_REQUEST: 'REFUND_REQUEST',
+  UNKNOWN: 'UNKNOWN',
+};
+
+export const COMPLAINT_TYPE = {
+  [COMPLAINT_TYPE_KEY.PAY_FAIL]: '支付失败',
+  [COMPLAINT_TYPE_KEY.REPORT_ABNORMAL]: '报告发生异常',
+  [COMPLAINT_TYPE_KEY.DATA_OBJECTION]: '数据异议',
+  [COMPLAINT_TYPE_KEY.REFUND_REQUEST]: '退款',
+  [COMPLAINT_TYPE_KEY.UNKNOWN]: '未知',
+};
+
+// 投诉状态
+export const COMPLAINT_STATUS_KEY = {
+  UNDISTRIBUTED: 'UNDISTRIBUTED',
+  FOLLOWING: 'FOLLOWING',
+  ARCHIVED: 'ARCHIVED',
+};
+
+export const COMPLAINT_STATUS = {
+  [COMPLAINT_STATUS_KEY.UNDISTRIBUTED]: '未分配',
+  [COMPLAINT_STATUS_KEY.FOLLOWING]: '跟进中',
+  [COMPLAINT_STATUS_KEY.ARCHIVED]: '已完结',
 };
 
 // 0：未开，1，已开蓝票，2，已开红票

@@ -1,6 +1,5 @@
 import { View, Image } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import './index.less';
 
 function ListItem({ item }) {
   const { title, icon, target } = item;

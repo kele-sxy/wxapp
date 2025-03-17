@@ -59,15 +59,14 @@ const RadarChart = (props: RadarChartProps) => {
   });
 
   const drawRadarChart = async (params: { width: number; height: number }) => {
-    const { width, height } = params;
+    const { width = 600, height = 600 } = params;
     ctx = Taro.createCanvasContext(canvasId);
     ctx.scale(2, 2);
-
     const circles = 5;
     const center = { x: width / 2, y: height / 2 };
     // 最外层圆的半径
     const minW = width > height ? height : width;
-    const radius = minW / 2 - 70;
+    const radius = minW / 2 - 130;
     // 每个点之间的角度
     const angleStep = (2 * Math.PI) / data.length;
 
@@ -101,9 +100,9 @@ const RadarChart = (props: RadarChartProps) => {
     ctx.setStrokeStyle(COLOR_MAP.baseColor);
     for (let i = 0; i < data.length; i++) {
       const x =
-        center.x + (radius + 10) * Math.cos(i * angleStep - Math.PI / 2);
+        center.x + (radius + 15) * Math.cos(i * angleStep - Math.PI / 2);
       const y =
-        center.y + (radius + 10) * Math.sin(i * angleStep - Math.PI / 2);
+        center.y + (radius + 15) * Math.sin(i * angleStep - Math.PI / 2);
       ctx.beginPath();
       ctx.moveTo(center.x, center.y);
       ctx.lineTo(x, y);
@@ -139,7 +138,7 @@ const RadarChart = (props: RadarChartProps) => {
     // 绘制白色圈圈
     for (let level = circles; level >= 0; level--) {
       ctx.beginPath();
-      const realRadius = level === circles ? radius + 10 : radius;
+      const realRadius = level === circles ? radius + 15 : radius;
       const r = (realRadius * level) / circles;
       if (level !== 3) {
         ctx.arc(center.x, center.y, r, 0, 2 * Math.PI);
@@ -152,22 +151,21 @@ const RadarChart = (props: RadarChartProps) => {
     ctx.setFillStyle(COLOR_MAP.baseColor);
     for (let i = 0; i < data.length; i++) {
       const x =
-        center.x + (radius + 10) * Math.cos(i * angleStep - Math.PI / 2);
+        center.x + (radius + 15) * Math.cos(i * angleStep - Math.PI / 2);
       const y =
-        center.y + (radius + 10) * Math.sin(i * angleStep - Math.PI / 2);
+        center.y + (radius + 15) * Math.sin(i * angleStep - Math.PI / 2);
       ctx.beginPath();
-      ctx.arc(x, y, 3, 0, 2 * Math.PI);
+      ctx.arc(x, y, 4, 0, 2 * Math.PI);
       ctx.fill();
     }
 
     // 绘制标签和对应数字
     ctx.setFontSize(14);
     for (let i = 0; i < data.length; i++) {
-      ctx.setFillStyle('#32343B');
-      ctx.font = 'normal bold 14px Arial,sans-serif';
+      ctx.setFillStyle('rgba(50, 52, 59, 1)');
       const angle = i * angleStep - Math.PI / 2;
-      const x = center.x + (radius + 10) * Math.cos(angle);
-      const y = center.y + (radius + 10) * Math.sin(angle);
+      const x = center.x + (radius + 25) * Math.cos(angle);
+      const y = center.y + (radius + 25) * Math.sin(angle);
       // 根据 x y 位置设置每个 text 的偏移
       const value = data[i][fieldProps.label];
       const txtW = ctx.measureText(value + '').width;
@@ -193,23 +191,27 @@ const RadarChart = (props: RadarChartProps) => {
         offsetX = -txtW - 5;
         offsetY = -10;
       }
+      ctx.setFontSize(26);
       ctx.fillText(value, x + offsetX, y + offsetY);
     }
-
-    // 绘制中心分数
-    ctx.setFontSize(40);
-    ctx.setFillStyle('#FFFFFF');
-    const txtW = ctx.measureText(fullScore + '').width;
-    ctx.fillText(`${fullScore}`, center.x - txtW / 2, center.y + 15);
-
     ctx.draw(false, () => {
-      Taro.canvasToTempFilePath({
-        canvasId: canvasId,
-        fileType: 'png',
-        success: (res) => {
-          setImageUrl(res.tempFilePath);
-        },
-      });
+      // 绘制中心分数
+      if (ctx) {
+        ctx.setFontSize(74);
+        ctx.setFillStyle('#FFFFFF');
+        const txtW = ctx.measureText(fullScore + '').width;
+        ctx.fillText(`${fullScore}`, center.x - txtW / 2, center.y + 15);
+
+        ctx.draw(true, () => {
+          Taro.canvasToTempFilePath({
+            canvasId: canvasId,
+            fileType: 'png',
+            success: (res) => {
+              setImageUrl(res.tempFilePath);
+            },
+          });
+        });
+      }
     });
   };
 
@@ -220,6 +222,8 @@ const RadarChart = (props: RadarChartProps) => {
         ref={chartRef}
         canvasId={canvasId}
         id={canvasId}
+        width='1200'
+        height='1200'
         className='absolute top-0 left-[-5000px] scale-[0.5] origin-top-left w-[1200rpx] h-[1200rpx]'
       />
     </View>
