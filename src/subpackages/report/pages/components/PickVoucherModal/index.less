@@ -1,0 +1,37 @@
+.pick-voucher {
+  .at-float-layout .layout-body {
+    padding: 0;
+  }
+  .at-float-layout__container {
+    border-radius: 64rpx 64rpx 0 0;
+    overflow: hidden;
+    .layout-header {
+      background-color: #fff;
+      text-align: center;
+      .layout-header__title {
+        padding-right: 0;
+      }
+    }
+    .layout-header__btn-close {
+      right: 40rpx;
+    }
+  }
+  .circle {
+    border-radius: 50%;
+    width: 40rpx;
+    height: 40rpx;
+    background: #fff;
+    border: 2rpx solid #b7b7b7;
+    &.checked {
+      border: none;
+      background: #118dff;
+    }
+  }
+}
+.voucher-radio {
+  mask: radial-gradient(
+      circle at 20rpx 156rpx,
+      transparent 18rpx,
+      #118dff 20rpx
+    ) -20rpx;
+}

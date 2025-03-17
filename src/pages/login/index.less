@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 其他自定义样式 */
+.login-container {
+  // background: linear-gradient(180deg, #b8ddff 0%, #fefefe 100%);
+  input::placeholder {
+    color: red;
+    font-size: 24rpx;
+    line-height: 24rpx;
+  }
+
+  .at-button__icon {
+    position: relative;
+    .at-loading {
+      position: absolute;
+      top: -9rpx;
+      left: -25rpx;
+    }
+  }
+}

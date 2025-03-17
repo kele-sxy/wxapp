@@ -1,0 +1,32 @@
+.custom-checkbox {
+  display: inline-block;
+  width: 30rpx;
+  height: 30rpx;
+  position: relative;
+  box-sizing: content-box;
+}
+
+.checkbox-box {
+  width: inherit;
+  height: inherit;
+  // background-color: #fff;
+  border: 2rpx solid #ccc;
+  border-radius: 4rpx;
+  box-sizing: border-box;
+}
+
+// .checkbox-box.checked {
+//   background-color: #007acc;
+//   border-color: #007acc;
+// }
+
+.checkbox-box.checked::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 28rpx;
+  height: 28rpx;
+  // background-color: #fff;
+  transform: translate(-50%, -50%);
+}

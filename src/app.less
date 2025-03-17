@@ -1,0 +1,184 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.custom-tips {
+  box-shadow: 0rpx 0rpx 10rpx 6rpx rgba(1, 28, 214, 0.15);
+  border-radius: 10rpx;
+  line-height: 34rpx;
+  .count-num {
+    color: #4f7fff;
+  }
+  .noticebar-wrapper {
+    flex-grow: 1;
+    margin-right: 48px;
+    overflow: hidden;
+  }
+  .noticebar-content {
+    display: inline-block;
+    animation: scroll-horizontal 6s linear infinite;
+  }
+}
+
+@keyframes scroll-horizontal {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+// 富文本字体
+rich-text {
+  font-size: 24rpx;
+  .table {
+    margin: 20px 0;
+    border-collapse: collapse;
+    box-sizing: border-box;
+    .th {
+      border: 2px solid #ccc;
+      background-color: #f5f2f0;
+      font-weight: 700;
+      text-align: center;
+      min-width: 40px;
+      display: table-cell;
+    }
+    .td {
+      border: 2px solid #ccc;
+      padding: 6px 10px;
+      height: 60px;
+      display: table-cell;
+      line-height: 1.5;
+    }
+  }
+}
+
+.at-input__container {
+  height: 100%;
+  .link-button {
+    font-size: 28rpx;
+    color: #4f7fff;
+  }
+}
+
+.hide-input-after {
+  .at-input__container .at-input__children::after {
+    display: none;
+  }
+}
+
+.pt-25 {
+  padding-top: 100rpx;
+}
+.inherit {
+  position: inherit;
+}
+.placeholder {
+  font-size: 25rpx;
+  color: #bcc2cc;
+}
+.at-form {
+  .at-input {
+    margin-left: 0;
+    .at-input__title {
+      font-size: 29rpx;
+      font-weight: 500;
+      color: #0b1933;
+    }
+  }
+  &::after {
+    display: none;
+  }
+}
+
+.flex-col-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.at-modal__container {
+  width: 550rpx;
+  // height: 298rpx;
+  border-radius: 36rpx;
+  .at-modal__header {
+    padding: 36px 24px 0 24px;
+    font-size: 34px;
+    font-weight: 600;
+  }
+  .at-modal__header::after {
+    border-bottom: none;
+  }
+  .at-modal__footer {
+    padding: 0rpx 58rpx 32rpx 58rpx;
+    .at-modal__action {
+      display: flex;
+      justify-content: space-between;
+      .at-button {
+        width: 208rpx;
+        height: 88rpx;
+        line-height: 88rpx;
+        border-radius: 48rpx;
+        margin: 0;
+      }
+    }
+  }
+  .at-button--normal {
+    color: #4f7fff;
+    border: 1px solid;
+  }
+  .at-button--primary {
+    color: #fff;
+  }
+  .at-modal__footer::before {
+    border-top: none;
+  }
+  .at-modal__content {
+    min-height: 0;
+    padding: 24rpx 64rpx 36rpx 64rpx;
+    color: #6f6f73;
+    font-size: 24px;
+    letter-spacing: 2px;
+  }
+}
+
+.at-article {
+  padding-bottom: 40rpx;
+}
+
+.at-tabs__item {
+  font-size: 32rpx;
+  color: #193059;
+  &.at-tabs__item--active {
+    font-weight: 600;
+    font-size: 32rpx;
+    color: #4f7fff;
+    .at-tabs__item-underline {
+      background-color: #4f7fff;
+      height: 6rpx;
+      border-radius: 3rpx;
+    }
+  }
+}
+
+.radio-check {
+  .circle {
+    border-radius: 50%;
+    width: 32rpx;
+    height: 32rpx;
+    background: #fff;
+    border: 2rpx solid #b7b7b7;
+    &.checked {
+      border: none;
+      background: #118dff;
+    }
+  }
+}

@@ -1,0 +1,46 @@
+.voucherCard {
+  position: relative;
+  border: 2rpx solid #118dff;
+  overflow: hidden;
+  background: linear-gradient(180deg, #e3f1ff 0%, rgba(255, 242, 227, 0.1) 100%),
+    #ffffff;
+  &.disabled {
+    background: #fff;
+    border-color: #b7b7b7;
+    .detail {
+      color: #b7b7b7;
+      border-color: #c4c4c4;
+    }
+    &::before,
+    &::after {
+      border-color: #b7b7b7;
+    }
+  }
+  image {
+    width: 162rpx;
+    height: 154rpx;
+  }
+  .detail {
+    display: flex;
+    flex-direction: column;
+    color: #414141;
+    border-top: 2rpx dashed #118dff;
+    background: transparent;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    width: 40rpx;
+    height: 40rpx;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 2rpx solid #118dff;
+    top: 135rpx;
+    right: -20rpx;
+  }
+  mask: radial-gradient(
+      circle at 20rpx 156rpx,
+      transparent 18rpx,
+      #118dff 20rpx
+    ) -20rpx;
+}

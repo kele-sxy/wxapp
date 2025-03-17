@@ -1,0 +1,28 @@
+.function-box {
+  font-size: 25rpx;
+  color: #0b1933;
+  .function-item {
+    border-radius: 17rpx;
+    margin-bottom: 20rpx;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20rpx;
+    width: calc(50% - 20rpx);
+    image {
+      width: 41rpx;
+      height: 39rpx;
+    }
+    background: #f5f9fd;
+    &:nth-child(odd) {
+      margin-right: 20rpx;
+    }
+    &:nth-child(2),
+    &:nth-child(3),
+    &:nth-child(6),
+    &:nth-child(7),
+    &:nth-child(10) {
+      background: #f1fdfd;
+    }
+  }
+}

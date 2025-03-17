@@ -1,0 +1,5 @@
+{
+  "tailwindCSS.rootFontSize": 32,
+  "tailwindCSS.experimental.config.rootFontSize": 32,
+  "typescript.tsdk": "node_modules/typescript/lib"
+}

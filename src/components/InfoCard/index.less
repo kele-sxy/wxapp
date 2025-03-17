@@ -1,0 +1,46 @@
+.info-card {
+  border-radius: 32rpx;
+  box-shadow: 0rpx 0rpx 7rpx 6rpx rgba(1, 28, 214, 0.1);
+  margin-bottom: 40rpx;
+  z-index: 1;
+  .card__header {
+    border-bottom: 0;
+    padding: 40rpx;
+    .card__header-title {
+      font-weight: 600;
+      font-size: 33rpx;
+      color: #3b5482;
+      padding-left: 16rpx;
+      &::before {
+        content: '';
+        position: absolute;
+        width: 4rpx;
+        height: 1em;
+        border-radius: 2rpx;
+        background-color: #476cff;
+        transform: translateX(-18rpx);
+      }
+      &-homemaking::before {
+        background-color: #ff8c00;
+      }
+      &-security::before {
+        background-color: #4f7fff;
+      }
+      &-lease::before {
+        background-color: #6d80ff;
+      }
+      &-personal_risk::before {
+        background-color: #45ba0b;
+      }
+      &-marriage::before {
+        background-color: #f759ab;
+      }
+      &-pre_education::before {
+        background-color: #ff5959;
+      }
+    }
+  }
+  .card__content {
+    padding: 0rpx 38rpx 50rpx;
+  }
+}
